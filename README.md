@@ -112,8 +112,8 @@ After deleting 'city', fields: [name, age]
 Does 'city' exist? false
 ```
 
-# Redis List 
-## RPUSH
+# Example 3 : Redis List data type
+## rpush(), lrange()
 ```java
 import redis.clients.jedis.Jedis;
 public class RedisList {
@@ -141,7 +141,8 @@ public class RedisList {
 All Elements in list: [Value1, Value2, Value3]
 Last two elements : [Value2, Value3]
 ```
-## LPUSH
+# Example 3a : Redis List data type
+## lpush(), lrange()
 ```java
 import redis.clients.jedis.Jedis;
 public class RedisList {
@@ -171,7 +172,8 @@ All Elements in list: [Value3, Value2, Value1]
 Last two elements : [Value2, Value1]
 ```
 
-## Redis List : rpop(), lpop(), lindex(), lrange()
+# Example 3b : Redis List data type
+## rpop(), lpop(), lindex(), lrange()
 ```java
 import redis.clients.jedis.Jedis;
 public class ListOperations {
