@@ -217,6 +217,9 @@ Pop first element from the head of the list :Value0
 ```
 
 # Example 4 : Redis Set data type
+
+Redis sets are unordered collections of unique strings that act like the sets, present in almost all the programming languages (e.g. Java HashSet, Python set and similarly for other languages)
+
 ## sadd() , smembers(), sismember(), srem()
 ```java
 import redis.clients.jedis.Jedis;
