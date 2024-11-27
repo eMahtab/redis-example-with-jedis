@@ -48,3 +48,64 @@ Mahtab Alam
 Active Partition :edf833-hju87iols-kla12
 Active Partition :null
 ```
+
+## Example 2 :
+```java
+import redis.clients.jedis.Jedis;
+import java.util.Map;
+
+public class Hashes {
+    public static void main(String[] args) {
+        try (Jedis jedis = new Jedis("localhost", 6379)) {
+            String hashKey = "user:1001";
+            // Add fields to the hash using HSET
+            jedis.hset(hashKey, "name", "Mahtab Alam");
+            jedis.hset(hashKey, "age", "31");
+            jedis.hset(hashKey, "city", "Bangalore");
+
+            // Retrieve a specific field using HGET
+            String name = jedis.hget(hashKey, "name");
+            System.out.println("Name: " + name);
+
+            // Retrieve all fields and values using HGETALL
+            Map<String, String> userDetails = jedis.hgetAll(hashKey);
+            System.out.println("User Details:");
+            userDetails.forEach((field, value) -> System.out.println(field + ": " + value));
+
+            // Increment a numeric field using HINCRBY
+            jedis.hincrBy(hashKey, "age", 1);
+            System.out.println("Updated Age: " + jedis.hget(hashKey, "age"));
+
+            // HKEYS returns a Set containing all keys in a hash
+            System.out.println("Fields: " + jedis.hkeys(hashKey));
+
+            // HVALS returns a List containing all values in a hash
+            System.out.println("Values: " + jedis.hvals(hashKey));
+
+            // Delete a field using HDEL
+            jedis.hdel(hashKey, "city");
+            System.out.println("After deleting 'city', fields: " + jedis.hkeys(hashKey));
+
+            // Check if a field exists using HEXISTS
+            boolean hasCity = jedis.hexists(hashKey, "city");
+            System.out.println("Does 'city' exist? " + hasCity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Code Execution Output :
+```
+Name: Mahtab Alam
+User Details:
+name: Mahtab Alam
+city: Bangalore
+age: 31
+Updated Age: 32
+Fields: [city, name, age]
+Values: [Mahtab Alam, 32, Bangalore]
+After deleting 'city', fields: [name, age]
+Does 'city' exist? false
+```
