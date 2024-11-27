@@ -109,3 +109,28 @@ Values: [Mahtab Alam, 32, Bangalore]
 After deleting 'city', fields: [name, age]
 Does 'city' exist? false
 ```
+
+# Redis List
+
+```java
+import redis.clients.jedis.Jedis;
+public class RedisList {
+    public static void main(String[] args) {
+        try (Jedis jedis = new Jedis("localhost", 6379)) {
+            String listKey = "myList";
+            // Clear the list if it already exists
+            jedis.del(listKey);
+
+            // RPUSH to add elements at the end of the list(tail)
+            jedis.rpush(listKey, "Value1");
+            jedis.rpush(listKey, "Value2");
+            jedis.rpush(listKey, "Value3");
+            // LRANGE listKey 0 -1 retrieves all elements from start (0) to end (-1)
+            System.out.println("All Elements in list: " + jedis.lrange(listKey, 0, -1));
+            System.out.println("Last two elements : " + jedis.lrange(listKey, -2, -1));
+        } catch (Exception e) {
+            System.err.println("Error interacting with Redis: " + e.getMessage());
+        }
+    }
+}
+```
