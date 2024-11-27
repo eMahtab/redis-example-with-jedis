@@ -257,3 +257,60 @@ element3
 element4
 Deleted the set
 ```
+
+## Redis Sorted Set
+```java
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.resps.Tuple;
+public class RedisSortedSetExample {
+
+    public static void main(String[] args) {
+        try (Jedis jedis = new Jedis("localhost", 6379)) {
+            String sortedSetKey = "leaderboard";
+            jedis.zadd(sortedSetKey, 100.0, "Player4");
+            jedis.zadd(sortedSetKey, 20.0, "Player1");
+            jedis.zadd(sortedSetKey, 0.0, "Player2");
+            jedis.zadd(sortedSetKey, 200.0, "Player3");
+            jedis.zadd(sortedSetKey, 150.0, "Player5");
+
+            // Retrieve all elements by score (by default ascending order of score)
+            System.out.println("Players sorted by rank (score):");
+            for (String player : jedis.zrange(sortedSetKey, 0, -1)) {
+                System.out.println(player);
+            }
+
+            // Retrieve all elements with scores
+            System.out.println("\nPlayers with their scores:");
+            for (Tuple entry : jedis.zrangeWithScores(sortedSetKey, 0, -1)) {
+                System.out.println(entry.getElement() + " - Score: " + entry.getScore());
+            }
+
+            // Retrieve players with scores within a range
+            System.out.println("\nPlayers with scores between 100 and 200:");
+            for (String player : jedis.zrangeByScore(sortedSetKey, 100.0, 200.0)) {
+                System.out.println(player);
+            }
+
+            // Get the rank of a specific player
+            Long rank = jedis.zrank(sortedSetKey, "Player3");
+            System.out.println("\nRank of Player3: " + rank);
+
+            // Remove a player from the sorted set
+            jedis.zrem(sortedSetKey, "Player1");
+            System.out.println("\nRemoved Player1 from the sorted set");
+
+            // Retrieve updated players
+            System.out.println("Updated players in the sorted set:");
+            for (String player : jedis.zrange(sortedSetKey, 0, -1)) {
+                System.out.println(player);
+            }
+
+            // Clean up: delete the sorted set
+            jedis.del(sortedSetKey);
+            System.out.println("\nDeleted the sorted set");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
