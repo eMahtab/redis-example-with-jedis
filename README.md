@@ -210,8 +210,8 @@ Pop last element from end of the list :Value3
 Pop first element from the head of the list :Value0
 ```
 
-# Redis Set :
-### sadd() , smembers(), sismember(), srem()
+# Example 4 : Redis Set data type
+## sadd() , smembers(), sismember(), srem()
 ```java
 import redis.clients.jedis.Jedis;
 public class RedisSetExample {
@@ -262,7 +262,8 @@ element4
 Deleted the set
 ```
 
-## Redis Sorted Set
+# Example 5 : Redis Sorted Set data type
+## zadd(), zrange(), zrangeWithScores(), zrangeByScore(), zrank(), zrem()
 ```java
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.resps.Tuple;
