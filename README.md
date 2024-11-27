@@ -53,6 +53,38 @@ Active Partition :edf833-hju87iols-kla12
 Active Partition :null
 ```
 
+## Example 1a : Using Redis key as a counter
+```java
+import redis.clients.jedis.Jedis;
+public class CounterTest {
+    public static void main(String[] args) {
+        try (Jedis jedis = new Jedis("localhost", 6379)) {
+
+            jedis.set("counter", "0");
+            jedis.incr("counter");
+            System.out.println("counter :" + jedis.get("counter"));
+
+            jedis.incrBy("counter", 5);
+            System.out.println("counter :" + jedis.get("counter"));
+
+            jedis.decr("counter");
+            System.out.println("counter :" + jedis.get("counter"));
+            jedis.decrBy("counter", 2);
+            System.out.println("counter :" + jedis.get("counter"));
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+```
+### Code Execution Output :
+```
+counter :1
+counter :6
+counter :5
+counter :3
+```
 ## Example 2 : Redis Hash data type
 
 Redis hashes are record types modeled as collections of field-value pairs.
