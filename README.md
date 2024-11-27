@@ -443,7 +443,10 @@ Player2
 Deleted the sorted set
 ```
 
-# Caching Java Object in Redis 
+# Example 6 : Caching Java Object in Redis 
+
+Redis stores data as strings, hashes, lists, sets, and other simple data types. To save a Java object, you must transform it into a byte stream or string that Redis can understand.
+
 ```java
 // User.java
 public class User {
