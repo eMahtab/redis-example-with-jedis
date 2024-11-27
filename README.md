@@ -207,6 +207,7 @@ Pop first element from the head of the list :Value0
 ```
 
 # Redis Set :
+### sadd() , smembers(), sismember(), srem()
 ```java
 import redis.clients.jedis.Jedis;
 public class RedisSetExample {
