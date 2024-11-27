@@ -116,6 +116,9 @@ Does 'city' exist? false
 ```
 
 # Example 3 : Redis List data type
+
+Redis lists are lists of strings sorted by insertion order. You can add/pop element from either the head or tail end of the list.
+
 ## rpush(), lrange()
 ```java
 import redis.clients.jedis.Jedis;
