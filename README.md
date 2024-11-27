@@ -40,3 +40,11 @@ public class Test {
     }
 }
 ```
+
+### Code Execution Output :
+```
+OK
+Mahtab Alam
+Active Partition :edf833-hju87iols-kla12
+Active Partition :null
+```
