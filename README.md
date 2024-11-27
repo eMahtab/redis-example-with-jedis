@@ -352,3 +352,93 @@ Player3
 
 Deleted the sorted set
 ```
+
+# Example 5a : Redis Sorted Set data type (sorting in descending order of score)
+## zadd(), zrevrange(), zrevrangeWithScores(), zrevrangeByScore(), zrevrank(), zrem()
+```java
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.resps.Tuple;
+public class RedisSortedSetDescendingExample {
+
+    public static void main(String[] args) {
+        try (Jedis jedis = new Jedis("localhost", 6379)) {
+            String sortedSetKey = "leaderboard";
+            jedis.zadd(sortedSetKey, 100.0, "Player4");
+            jedis.zadd(sortedSetKey, 20.0, "Player1");
+            jedis.zadd(sortedSetKey, 0.0, "Player2");
+            jedis.zadd(sortedSetKey, 200.0, "Player3");
+            jedis.zadd(sortedSetKey, 150.0, "Player5");
+
+            // Retrieve all elements by descending order of score
+            System.out.println("Players sorted by score:");
+            for (String player : jedis.zrevrange(sortedSetKey, 0, -1)) {
+                System.out.println(player);
+            }
+
+            // Retrieve all elements with scores
+            System.out.println("\nPlayers with their scores:");
+            for (Tuple entry : jedis.zrevrangeWithScores(sortedSetKey, 0, -1)) {
+                System.out.println(entry.getElement() + " - Score: " + entry.getScore());
+            }
+
+            // Retrieve players with scores within a range
+            System.out.println("\nPlayers with scores between 200 and 100:");
+            for (String player : jedis.zrevrangeByScore(sortedSetKey, 200.0, 100.0)) {
+                System.out.println(player);
+            }
+
+            // Get the rank of a specific player
+            Long rank = jedis.zrevrank(sortedSetKey, "Player3");
+            System.out.println("\nRank of Player3: " + rank);
+
+            // Remove a player from the sorted set
+            jedis.zrem(sortedSetKey, "Player1");
+            System.out.println("\nRemoved Player1 from the sorted set");
+
+            // Retrieve updated players
+            System.out.println("Updated players in the sorted set:");
+            for (String player : jedis.zrevrange(sortedSetKey, 0, -1)) {
+                System.out.println(player);
+            }
+
+            // Clean up: delete the sorted set
+            jedis.del(sortedSetKey);
+            System.out.println("\nDeleted the sorted set");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+### Code Execution Output :
+```
+Players sorted by score:
+Player3
+Player5
+Player4
+Player1
+Player2
+
+Players with their scores:
+Player3 - Score: 200.0
+Player5 - Score: 150.0
+Player4 - Score: 100.0
+Player1 - Score: 20.0
+Player2 - Score: 0.0
+
+Players with scores between 200 and 100:
+Player3
+Player5
+Player4
+
+Rank of Player3: 0
+
+Removed Player1 from the sorted set
+Updated players in the sorted set:
+Player3
+Player5
+Player4
+Player2
+
+Deleted the sorted set
+```
