@@ -17,6 +17,9 @@ docker run --name some-redis --publish=6379:6379 -d redis
 ```
 
 ## Example 1 : Redis storing and retrieving Strings
+
+Redis strings store sequences of bytes, including text, serialized objects, and binary arrays. As such, strings are the simplest type of value you can associate with a Redis key.
+
 ### set() , get(), setex()
 ```java
 import redis.clients.jedis.Jedis;
