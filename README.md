@@ -168,3 +168,40 @@ public class RedisList {
 All Elements in list: [Value3, Value2, Value1]
 Last two elements : [Value2, Value1]
 ```
+
+## Redis List : rpop(), lpop(), lindex(), lrange()
+```java
+import redis.clients.jedis.Jedis;
+public class ListOperations {
+    public static void main(String[] args) {
+        try (Jedis jedis = new Jedis("localhost", 6379)) {
+            String listKey = "myList";
+            // Clear the list if it already exists
+            jedis.del(listKey);
+
+            // RPUSH to add elements at tail, LPUSH for adding at the head
+            jedis.rpush(listKey, "Value1");
+            jedis.rpush(listKey, "Value2");
+            jedis.rpush(listKey, "Value3");
+            jedis.lpush(listKey, "Value0");
+
+            System.out.println("First element at the head :" + jedis.lindex(listKey, 0));
+            System.out.println("First 5 elements from the head:" + jedis.lrange(listKey, 0, 4));
+            System.out.println("Last 3 elements from the end:" + jedis.lrange(listKey, -3, -1));
+            System.out.println("Pop last element from end of the list :" + jedis.rpop(listKey));
+            System.out.println("Pop first element from the head of the list :" + jedis.lpop(listKey));
+        } catch (Exception e) {
+            System.err.println("Error interacting with Redis: " + e.getMessage());
+        }
+    }
+}
+```
+
+### Code Execution Output :
+```
+First element at the head :Value0
+First 5 elements from the head:[Value0, Value1, Value2, Value3]
+Last 3 elements from the end:[Value1, Value2, Value3]
+Pop last element from end of the list :Value3
+Pop first element from the head of the list :Value0
+```
