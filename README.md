@@ -51,6 +51,9 @@ Active Partition :null
 ```
 
 ## Example 2 : Redis Hash data type
+
+Redis hashes are record types modeled as collections of field-value pairs.
+
 ### hset(), hget(), hgetall(), hkeys(), hvals(), hexists(), hdel()
 ```java
 import redis.clients.jedis.Jedis;
