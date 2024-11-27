@@ -494,6 +494,16 @@ Deleted the sorted set
 
 Redis stores data as strings, hashes, lists, sets, and other simple data types. To save a Java object, you must transform it into a byte stream or string that Redis can understand.
 
+Most of the time you would use a library to serialize the Java object into a type that redis support e.g. String. In below example we use Jackson library to serialize Java object into a JSON, returned as a String. The returned String is saved in the Redis cache, redis returns the String value on get operation, the application code then deserialize the JSON string back to Java Object using Jackson library.
+
+```xml
+<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.15.2</version>
+</dependency>
+```
+
 ```java
 // User.java
 public class User {
