@@ -527,3 +527,8 @@ public class Test {
 Serialized User: {"id":"1","name":"Mahtab Alam","age":31}
 Cached User: name=Mahtab Alam, id=1, age=31
 ```
+
+# References :
+
+1. https://redis.io/docs/latest/develop/data-types/
+
