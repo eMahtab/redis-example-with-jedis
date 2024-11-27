@@ -205,3 +205,54 @@ Last 3 elements from the end:[Value1, Value2, Value3]
 Pop last element from end of the list :Value3
 Pop first element from the head of the list :Value0
 ```
+
+# Redis Set :
+```java
+import redis.clients.jedis.Jedis;
+public class RedisSetExample {
+    public static void main(String[] args) {
+        try (Jedis jedis = new Jedis("localhost", 6379)) {
+            String setKey = "mySet";
+            jedis.sadd(setKey, "element1", "element2", "element3");
+            jedis.sadd(setKey, "element4");
+            System.out.println("Elements in the set:");
+            for (String element : jedis.smembers(setKey)) {
+                System.out.print(element + " ");
+            }
+            System.out.println();
+
+            String elementToCheck = "element2";
+            boolean exists = jedis.sismember(setKey, elementToCheck);
+            System.out.println(elementToCheck + " exists in the set? " + exists);
+
+            // Remove an element from the set
+            jedis.srem(setKey, "element1");
+            System.out.println("Removed 'element1' from the set");
+
+            // Retrieve and display the updated set
+            System.out.println("Updated elements in the set:");
+            for (String element : jedis.smembers(setKey)) {
+                System.out.println(element);
+            }
+            // Clean up: delete the set
+            jedis.del(setKey);
+            System.out.println("Deleted the set");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Code Execution Output :
+```
+Elements in the set:
+element1 element2 element3 element4 
+element2 exists in the set? true
+Removed 'element1' from the set
+Updated elements in the set:
+element2
+element3
+element4
+Deleted the set
+```
