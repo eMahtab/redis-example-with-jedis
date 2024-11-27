@@ -16,7 +16,7 @@ docker run --name some-redis --publish=6379:6379 -d redis
 </dependency>
 ```
 
-## Example 1 :
+## Example 1 : set() , get(), setex()
 ```java
 import redis.clients.jedis.Jedis;
 
