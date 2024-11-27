@@ -314,3 +314,36 @@ public class RedisSortedSetExample {
     }
 }
 ```
+
+### Code Execution Output :
+```java
+Players sorted by rank (score):
+Player2
+Player1
+Player4
+Player5
+Player3
+
+Players with their scores:
+Player2 - Score: 0.0
+Player1 - Score: 20.0
+Player4 - Score: 100.0
+Player5 - Score: 150.0
+Player3 - Score: 200.0
+
+Players with scores between 100 and 200:
+Player4
+Player5
+Player3
+
+Rank of Player3: 4
+
+Removed Player1 from the sorted set
+Updated players in the sorted set:
+Player2
+Player4
+Player5
+Player3
+
+Deleted the sorted set
+```
