@@ -1,1 +1,1 @@
-# redis-example-with-jedis
+# Redis example with Jedis
