@@ -111,7 +111,7 @@ Does 'city' exist? false
 ```
 
 # Redis List 
-## RPUSH and LRANGE
+## RPUSH
 ```java
 import redis.clients.jedis.Jedis;
 public class RedisList {
@@ -138,4 +138,33 @@ public class RedisList {
 ```
 All Elements in list: [Value1, Value2, Value3]
 Last two elements : [Value2, Value3]
+```
+## LPUSH
+```java
+import redis.clients.jedis.Jedis;
+public class RedisList {
+    public static void main(String[] args) {
+        try (Jedis jedis = new Jedis("localhost", 6379)) {
+            String listKey = "myList";
+            // Clear the list if it already exists
+            jedis.del(listKey);
+
+            // LPUSH to add elements at the head of the list
+            jedis.lpush(listKey, "Value1");
+            jedis.lpush(listKey, "Value2");
+            jedis.lpush(listKey, "Value3");
+            // LRANGE listKey 0 -1 retrieves all elements from start (0) to end (-1)
+            System.out.println("All Elements in list: " + jedis.lrange(listKey, 0, -1));
+            System.out.println("Last two elements : " + jedis.lrange(listKey, -2, -1));
+        } catch (Exception e) {
+            System.err.println("Error interacting with Redis: " + e.getMessage());
+        }
+    }
+}
+```
+
+### Code Execution Output :
+```
+All Elements in list: [Value3, Value2, Value1]
+Last two elements : [Value2, Value1]
 ```
