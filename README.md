@@ -266,6 +266,9 @@ Deleted the set
 ```
 
 # Example 5 : Redis Sorted Set data type
+
+Redis sorted sets are collections of **unique strings that maintain order by each string's associated score.**
+
 ## zadd(), zrange(), zrangeWithScores(), zrangeByScore(), zrank(), zrem()
 ```java
 import redis.clients.jedis.Jedis;
