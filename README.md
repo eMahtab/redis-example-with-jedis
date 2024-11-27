@@ -49,7 +49,8 @@ Active Partition :edf833-hju87iols-kla12
 Active Partition :null
 ```
 
-## Example 2 :
+## Example 2 : Redis Hash data type
+### hset(), hget(), hgetall(), hkeys(), hvals(), hexists(), hdel()
 ```java
 import redis.clients.jedis.Jedis;
 import java.util.Map;
