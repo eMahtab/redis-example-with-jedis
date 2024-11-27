@@ -15,3 +15,27 @@ docker run --name some-redis --publish=6379:6379 -d redis
    <version>5.2.0</version>
 </dependency>
 ```
+
+## Example 1 :
+```java
+import redis.clients.jedis.Jedis;
+public class Test {
+	public static void main(String[] args) {
+		try(Jedis jedis = new Jedis("localhost", 6379)) {
+			String res1 = jedis.set("user:1", "Mahtab Alam");
+	        System.out.println(res1); // OK
+
+	        String res2 = jedis.get("user:1");
+	        System.out.println(res2); // Mahtab Alam
+	        
+	        jedis.setex("active:partition", 10, "edf833-hju87iols-kla12");
+	        Thread.sleep(6000);
+			System.out.println("Active Partition :" + jedis.get("active:partition"));
+			Thread.sleep(5000);
+			System.out.println("Active Partition :" + jedis.get("active:partition"));
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+}
+```
