@@ -442,3 +442,85 @@ Player2
 
 Deleted the sorted set
 ```
+
+# Caching Java Object in Redis 
+```java
+// User.java
+public class User {
+    private String id;
+    private String name;
+    private int age;
+
+    // Constructors
+    public User() {
+    }
+    public User(String id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+    // Getters and Setters
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    @Override
+    public String toString() {
+        return "name=" + name + ", id=" + id + ", age=" + age;
+    }
+}
+
+// Test.java
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import redis.clients.jedis.Jedis;
+public class Test {
+    public static void main(String[] args) {
+        // Jackson ObjectMapper for serialization and deserialization
+        ObjectMapper objectMapper = new ObjectMapper();
+        User user = new User("1", "Mahtab Alam", 31);
+
+        try (Jedis jedis = new Jedis("localhost", 6379)) {
+            // Serialize User object to JSON, and return as a String
+            String userJsonAsString = objectMapper.writeValueAsString(user);
+            System.out.println("Serialized User: " + userJsonAsString);
+
+            String key = "user:1";
+            jedis.set("user:1", userJsonAsString);
+            // Retrieve JSON from Redis
+            String retrievedJson = jedis.get(key);
+            // Deserialize JSON String to User object
+            if (retrievedJson != null) {
+                User cachedUser = objectMapper.readValue(retrievedJson, User.class);
+                System.out.println("Cached User: " + cachedUser);
+            } else {
+                System.out.println("Cache miss for key: " + key);
+            }
+        } catch (JsonProcessingException e) {
+            System.err.println("Error in JSON processing: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error connecting to Redis: " + e.getMessage());
+        }
+    }
+}
+```
+
+### Code Execution Output :
+```
+Serialized User: {"id":"1","name":"Mahtab Alam","age":31}
+Cached User: name=Mahtab Alam, id=1, age=31
+```
